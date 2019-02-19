@@ -1,13 +1,46 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Query, Mutation } from 'react-apollo'; 
 import { CLIENTS_QUERY } from '../queries';
 import { DELETE_CLIENT } from '../queries/mutations';
 import { Link } from 'react-router-dom';
+import Paginator from './Pagination'
+
+class Clients extends Component {
+
+    limit = 3; 
+
+    state = {
+        page: {
+            offset: 0,
+            current: 1
+        }
+    }
+
+    priorPage = () => {
+        this.setState({
+            page: {
+                offset: this.state.page.offset - this.limit,
+                current: this.state.page.current - 1
+            }
+        })
+
+    }
+
+    nextPage = () => { 
+        this.setState({
+            page: {
+                offset: this.state.page.offset + this.limit,
+                current: this.state.page.current + 1
+            }
+        })
 
 
-export default function Clients() {
-  return (
-      <Query query={CLIENTS_QUERY} pollInterval={1000} > 
+    }
+    
+    render(){
+        return (
+
+        <Query query={CLIENTS_QUERY} pollInterval={1000} variables={{limit: this.limit, offset: this.state.page.offset}}> 
       {({ loading, err, data, startPolling, stopPolling }) => {
           if(loading) return "Loading...";
           if(err) return `Error ${err.message}`;
@@ -34,9 +67,14 @@ export default function Clients() {
                             className="btn btn-danger d-block d-md-inline-block mr-2" 
                             type="button"
                             onClick={ () => {
-                                deleteClient({
-                                    variables: {id}
-                                })
+                                const windowConfirm = window.confirm(`Do you really want to remove ${item.name} from ${item.company} ?`)  
+                                if (windowConfirm === true) { 
+                                    deleteClient({
+                                        variables: {id}
+                                    })
+                                }
+
+                        
                             }}
                             >
                                 &times; Delete Client 
@@ -51,9 +89,17 @@ export default function Clients() {
                       </li>
                       )})}
               </ul>
+              <Paginator newest={this.state.page.current}
+                totalClients={data.totalClients}
+                paginatorLimit={this.limit}
+                nextPage={this.nextPage}
+                lastPage={this.priorPage}
+               />
             </>
           )
       }}
       </Query>
   )
 }
+}
+export default Clients

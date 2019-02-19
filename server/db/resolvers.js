@@ -3,24 +3,10 @@ import { Clients } from './db'
 import { rejects } from 'assert';
 
 
-class Client { 
-    constructor(id, {name, lastname, company, emails, age, type, orders}){
-        this.id = id; 
-        this.name = name;
-        this.lastname = lastname; 
-        this.company = company;
-        this.age = age; 
-        this.type = type;
-        this.orders = orders; 
-        this.emails = emails; 
-    }
-}
-
-
 export const resolvers = {
     Query: {
-        getClients: (root, {limit}) => {
-            return Clients.find({}).limit(limit)
+        getClients: (root, {limit, offset}) => {
+            return Clients.find({}).limit(limit).skip(offset)
         },
         getClient: (root, { id }) => {
             return new Promise((resolve, object) => {
@@ -30,6 +16,14 @@ export const resolvers = {
                 });
             }); 
         },
+        totalClients: (root) => {
+            return new Promise((resolve, object) => {
+                Clients.countDocuments({},(err, count) => { 
+                    if(err) rejects(err)
+                    else resolve(count)
+                })
+            })
+        }
     },
     Mutation: {
         createClient : (root, {input}) => {
