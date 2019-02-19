@@ -40,7 +40,7 @@ export const resolvers = {
                 age: input.age,
                 type: input.type,
                 orders: input.orders,
-                email: input.emails,
+                emails: input.emails,
             }) 
 
             newClient.id = newClient._id; 

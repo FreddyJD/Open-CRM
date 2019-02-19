@@ -11,7 +11,7 @@ const clientSchema = new mongoose.Schema({
     age: String,
     type: String,
     orders: Array,
-    email: Array,
+    emails: Array,
     
 });
 

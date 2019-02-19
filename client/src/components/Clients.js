@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom';
 
 export default function Clients() {
   return (
-      <Query query={CLIENTS_QUERY} > 
-      {({ loading, err, data }) => {
+      <Query query={CLIENTS_QUERY} pollInterval={1000} > 
+      {({ loading, err, data, startPolling, stopPolling }) => {
           if(loading) return "Loading...";
           if(err) return `Error ${err.message}`;
             console.log(data.getClients);

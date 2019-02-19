@@ -8,3 +8,19 @@ export const CLIENTS_QUERY =  gql`{
       company
     }
 }`
+
+export const CLIENT_QUERY = gql`
+query getThisClient($id: ID) {
+  getClient(id: $id) {
+    id
+    name
+    lastname
+    company
+    age
+    type
+    emails { 
+      email
+    }
+  }
+}
+`
