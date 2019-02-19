@@ -7,7 +7,7 @@ mutation createClient($input: ClientInput){
       lastname
     }
 }
-`
+`;
 
 
 export const UPDATE_CLIENT = gql`
@@ -23,4 +23,10 @@ mutation updateMyClient($input : ClientInput) {
     type
   }
 }
-  `
+`;
+
+  export const DELETE_CLIENT = gql`
+  mutation deleteUserByID($id: ID!){
+  deleteClient(id: $id)
+}
+`;

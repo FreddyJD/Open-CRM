@@ -22,7 +22,7 @@ export default class EditClient extends Component {
         <div className="row justify-content-center">
 
         <Query query={CLIENT_QUERY} variables={{id}}> 
-          {({ loading, err, data }) => { 
+          {({ loading, err, data, refetch }) => { 
             if(loading) return 'Loading...';
             if(err) return `We got an error ${err.message}`;
             
@@ -30,6 +30,7 @@ export default class EditClient extends Component {
             return (
               <FormEditClient 
                 client={data.getClient}
+                refetch={refetch}
 
               />
             )

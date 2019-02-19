@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {UPDATE_CLIENT} from '../queries/mutations';
 import { Mutation } from 'react-apollo'; 
-
+import { withRouter } from 'react-router-dom'
 
 class FormEditClient extends Component {
 
@@ -39,7 +39,9 @@ class FormEditClient extends Component {
            
             return (
                 <Mutation mutation={UPDATE_CLIENT}
-                onCompleted={ () => this.props.history.push('/')}
+                onCompleted={ () => this.props.refetch().then(() => {
+                    this.props.history.push('/')
+                })}
                 >
 
                 {updateThisClient => (
@@ -61,6 +63,7 @@ class FormEditClient extends Component {
                        updateThisClient({
                            variables: {input}
                        })
+                       this.push('/')
                    }}>
                             <div className="form-row">
                                 <div className="form-group col-md-6">
@@ -198,4 +201,4 @@ class FormEditClient extends Component {
 }
  
 
-export default FormEditClient;
+export default withRouter(FormEditClient);
