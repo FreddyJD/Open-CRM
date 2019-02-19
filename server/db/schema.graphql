@@ -9,6 +9,13 @@ type Client {
         emails: [Email]
     }
 
+    type Product { 
+        id: ID
+        name: String
+        price: Int 
+        stock: Int
+    }
+
     type Email {
         email: String
     }
@@ -26,9 +33,13 @@ type Client {
 
     
     type Query {
+        # Clients
         getClients(limit: Int, offset: Int): [Client]
         getClient(id: ID): Client
         totalClients: String
+        # Products 
+        getProducts(limit: Int, offset: Int): [Product]
+        getProduct(id: ID): Product
     }
 
 
@@ -44,6 +55,13 @@ type Client {
         emails: [EmailInput] 
     }
 
+    input ProductInput {
+        id: ID
+        name: String!
+        price: Int!
+        stock: Int!
+    }
+
     input OrderInput {
         product: String
         price: Int
@@ -57,6 +75,11 @@ type Client {
     type Mutation { 
         # Name of resolver, Input and Return value 
         """ Allow you to create a new client """
+        #Products 
+        createProduct(input: ProductInput): Product
+        updateProduct(input: ProductInput) : Product 
+        deleteProduct(id: ID! ) : String 
+        #Clients 
         createClient(input: ClientInput) : Client 
         updateClient(input: ClientInput) : Client 
         deleteClient(id: ID! ) : String 

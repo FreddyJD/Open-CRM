@@ -1,8 +1,10 @@
-import mongoose from 'mongoose';
+import mongoose, { mongo } from 'mongoose';
 
 mongoose.Promise = global.Promise;
 
 mongoose.connect('mongodb://localhost/clients', {useNewUrlParser: true});
+
+mongoose.set('setFindAndModify', false); 
 
 const clientSchema = new mongoose.Schema({
     name: String,
@@ -17,4 +19,13 @@ const clientSchema = new mongoose.Schema({
 
 const Clients = mongoose.model('client', clientSchema); 
 
-export { Clients }; 
+
+const productSchema = new mongoose.Schema({
+    name: String,
+    price: Number, 
+    stock: Number, 
+})
+
+const Products = mongoose.model('Products', productSchema)
+
+export { Clients, Products }; 

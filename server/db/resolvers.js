@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'; 
-import { Clients } from './db'
-import { rejects } from 'assert';
+import { Clients, Products } from './db'
+import { rejects, throws } from 'assert';
 
 
 export const resolvers = {
@@ -21,6 +21,17 @@ export const resolvers = {
                 Clients.countDocuments({},(err, count) => { 
                     if(err) rejects(err)
                     else resolve(count)
+                })
+            })
+        },
+        getProducts : (root, {limit, offset}) => { 
+            return Products.find({}).limit(limit).skip(offset); 
+        },
+        getProduct : (root, {id}) =>  {
+            return new Promise((resolve, object) => {
+                Products.findById(id, (err, product) => { 
+                    if(err) rejects(err);
+                    else resolve(product); 
                 })
             })
         }
@@ -62,6 +73,39 @@ export const resolvers = {
                     else resolve("User deleted")
                 })
             })
-        }
+        },
+        createProduct : (root, {input}) => {
+            const createProduct = new Products({
+                name: input.name,
+                price: input.price, 
+                stock: input.stock
+            });
+
+            createProduct.id = createProduct._id
+            
+            // We put our new object in our promise 
+            return new Promise((resolve, object) => { 
+                createProduct.save((err) =>  {
+                    if(err) rejects(err);
+                    else resolve(createProduct); 
+                })
+            });
+        },
+        updateProduct : (root, {input}) => { 
+            return new Promise((resolve, product) => { 
+                Products.findOneAndUpdate({_id: input.id}, input, {new: true}, (err, product) => {
+                    if(err) rejects(err); 
+                    else resolve(product)
+                });
+            })
+        },
+        deleteProduct : (root, {id}) => { 
+            return new Promise((resolve, object) =>  { 
+                Products.findOneAndRemove({_id: id}, (err) => { 
+                    if(err) rejects(err); 
+                    else resolve("Product deleted")
+                })
+            })
+        },
     },
 }
