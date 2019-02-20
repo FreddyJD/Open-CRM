@@ -40,7 +40,7 @@ class FormEditClient extends Component {
             return (
                 <Mutation mutation={UPDATE_CLIENT}
                 onCompleted={ () => this.props.refetch().then(() => {
-                    this.props.history.push('/')
+                    this.props.history.push('/clients')
                 })}
                 >
 

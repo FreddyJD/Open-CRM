@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Query, Mutation } from 'react-apollo'; 
 import { GET_PRODUCTS } from '../../queries';
 import { Link } from 'react-router-dom';
@@ -8,7 +8,7 @@ import Paginator from '../Pagination';
 
 
 export default class Products extends Component {
-    limit = 3; 
+    limit = 30; 
 
     state = {
         page: {
@@ -60,9 +60,8 @@ export default class Products extends Component {
                     {({ loading, err, data, startPolling, stopPolling }) => {
                         if (loading) return "Loading...";
                         if (err) return `Error ${err.message}`;
-                        console.log(data.getProducts);
                         return (
-                            <>
+                            <Fragment>
                             <table className="table">
                                 <thead>
                                     <tr className="table-primary">
@@ -126,13 +125,12 @@ export default class Products extends Component {
                                          </Mutation>
 
                                         </td> 
+
                                         <td>
                                         <Link to={`/product/edit/${id}`} className="btn btn-success">
                                             Edit product 
                                         </Link>
-
-
-                                            </td> 
+                                        </td> 
                                     
                                     </tr>
                                     )
@@ -141,12 +139,12 @@ export default class Products extends Component {
                             </tbody>
                             </table>
                             <Paginator newest={this.state.page.current}
-                            totalClients={data.totalClients}
+                            total={data.totalProducts}
                             paginatorLimit={this.limit}
                             nextPage={this.nextPage}
                             lastPage={this.priorPage}
                />
-               </>
+               </Fragment>
             )
 
 

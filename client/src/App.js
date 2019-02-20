@@ -34,7 +34,7 @@ class App extends Component {
           <Header /> 
             <div className="container">
               <Switch>
-                <Route exact path="/" component={Clients} />
+                <Route exact path="/clients" component={Clients} />
                 <Route exact path="/client/new" component={NewClient} />
                 <Route exact path="/client/edit/:id" component={EditClient} />
 

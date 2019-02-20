@@ -12,14 +12,33 @@ const Header = () => (
             </button>
             <div className="collapse navbar-collapse" id="navegation">
                 <ul className="navbar-nav ml-auto text-right">
-                    <li className="nav-item active">
-                    <Link to="/client/new" className="btn btn-success mr-2">
-                        <a>New client</a>
-                    </Link>
-
-                    <Link to="/product/new" className="btn btn-success">
-                        <a>New Product</a>
-                    </Link>
+                    <li className="nav-item dropdown mr-md-2 mb-2 mb-md-0">
+                        <button className="nav-link dropdown-toggle btn btn-block btn-success"
+                        data-toggle="dropdown">
+                        Clients
+                        </button>
+                        <div className="dropdown-menu" aria-labelledby="navegtion">
+                            <Link to="/clients" className="dropdown-item">
+                            View Clients
+                            </Link>
+                            <Link to="/client/new" className="dropdown-item">
+                            New Client
+                            </Link>
+                        </div>
+                    </li>
+                    <li className="nav-item dropdown">
+                        <button className="nav-link dropdown-toggle btn btn-block btn-success"
+                        data-toggle="dropdown">
+                        Products
+                        </button>
+                        <div className="dropdown-menu" aria-labelledby="navegtion">
+                            <Link to="/products" className="dropdown-item">
+                            Products
+                            </Link>
+                            <Link to="/product/new" className="dropdown-item">
+                            New Product
+                            </Link>
+                        </div>
 
                     </li>
                 </ul>

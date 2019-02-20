@@ -4,6 +4,8 @@ import { CLIENTS_QUERY } from '../../queries';
 import { DELETE_CLIENT } from '../../queries/mutations';
 import { Link } from 'react-router-dom';
 import Paginator from '../Pagination'
+import Success from '../Alerts/success';
+
 
 class Clients extends Component {
 
@@ -13,6 +15,10 @@ class Clients extends Component {
         page: {
             offset: 0,
             current: 1
+        },
+        alert : {
+            show: false, 
+            message: ''
         }
     }
 
@@ -38,6 +44,10 @@ class Clients extends Component {
     }
     
     render(){
+        const {alert: {show, message}} = this.state;
+
+        let alert = (show) ? <Success message={message} /> : '';
+
         return (
 
         <Query query={CLIENTS_QUERY} pollInterval={1000} variables={{limit: this.limit, offset: this.state.page.offset}}> 
@@ -48,11 +58,13 @@ class Clients extends Component {
           return(
               <>
               <h2 className="text-center"> List of clients </h2>
+                      {alert}
               <ul className="list-group mt-4">
                   {data.getClients.map(item => {
 
                   const {id} = item;
                   return (
+
                   
                       <li key={item.id} className="list-group-item">
                         <div className="row justify-content-between align-items-center">
@@ -60,7 +72,27 @@ class Clients extends Component {
                                 {item.name} {item.lastname} - {item.company}
                             </div>
                             <div className="col-md-4 d-flex justify-content-end">
-                            <Mutation mutation={DELETE_CLIENT}>
+                            
+                            <Mutation mutation={DELETE_CLIENT}
+                            onCompleted={(data) => {
+                                            this.setState({
+                                                alert: {
+                                                    show: true,
+                                                    message: data.deleteClient
+                                                }
+                                            }, () => {
+                                                setTimeout(() => {
+                                                    this.setState({
+                                                        alert: {
+                                                            show: false,
+                                                            message: ''
+                                                        }
+                                                    })
+                                                }, 3000)
+                                            })
+                                        }}
+                                >
+
                             { deleteClient => (
 
                             <button 
@@ -81,6 +113,7 @@ class Clients extends Component {
                             </button>
                             )}
                             </Mutation>
+
                                 <Link to={`/client/edit/${item.id}`} className="btn btn-success d-block d-md-inline-block">
                                     Edit Client
                                 </Link>
@@ -90,7 +123,7 @@ class Clients extends Component {
                       )})}
               </ul>
               <Paginator newest={this.state.page.current}
-                totalClients={data.totalClients}
+                total={data.totalClients}
                 paginatorLimit={this.limit}
                 nextPage={this.nextPage}
                 lastPage={this.priorPage}

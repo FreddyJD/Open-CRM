@@ -55,7 +55,7 @@ export default class NewClient extends Component {
         
         <Mutation 
         mutation={NEW_CLIENT}
-        onCompleted={() => this.props.history.push('/')}
+        onCompleted={() => this.props.history.push('/clients')}
         >
 
         { createClient => (
