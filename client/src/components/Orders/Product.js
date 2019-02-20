@@ -13,10 +13,16 @@ export default class Product extends Component {
           <td> {product.stock} </td>
           <td>
 
-              <input type="number"
-                  className="form-control"
-                  onChange={e => this.props.updateQuantity(e.target.value, this.props.index) }
-              />
+              <input 
+              min="1"
+              type="number"
+              className="form-control"
+              onChange={e => {
+              if(e.target.value > product.stock) {
+                e.target.value = 0
+              }
+              this.props.updateQuantity(e.target.value, this.props.index)
+               }}/>
           </td>
           <td>
               <button type="button"

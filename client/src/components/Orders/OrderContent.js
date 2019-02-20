@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Select from 'react-select';
 import Animated from 'react-select/lib/animated'
 import Summery from './Summery';
+import GenerateOrder from './GenerateOrder';
+import Error from './Error';
 
 export default class OrderContent extends Component {
 
@@ -74,7 +76,11 @@ export default class OrderContent extends Component {
     }
 
   render() {
+
+    const message = (this.state.total < 0) ? <Error error="🚫 You can't go below 0 " />: ''; 
+
     return (
+      
       <>
       <h2 className="text-center mb-3"> Select Products </h2>
         <Select 
@@ -97,11 +103,17 @@ export default class OrderContent extends Component {
         updateQuantity={this.updateQuantity}
         removeProduct={this.removeProduct}
          />
+      {message}
 
          <p className="float-right mt-3">
            Total: 
            <span className="font-weightnormal"> ${this.state.total} </span>
          </p> 
+         <GenerateOrder 
+           products={this.state.products}
+           total={this.state.total}
+           clientId={this.props.id}
+         />
       </>
     )
   }
