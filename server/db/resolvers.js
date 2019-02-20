@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'; 
-import { Clients, Products } from './db'
+import { Clients, Products, Orders } from './db'
 import { rejects, throws } from 'assert';
 
 
@@ -115,5 +115,37 @@ export const resolvers = {
                 })
             })
         },
-    },
+        createOrder : (root, {input}) => { 
+            const createOrder = new Orders({
+                order: input.order,
+                total: input.total,
+                date: new Date(),
+                client: input.client,
+                status: "PENDING"
+
+            });
+
+            createOrder.id = createOrder._id;
+
+            return new Promise((resolve, object) => {
+                
+                // Loop over the Orders and update it 
+                input.order.forEach(order => {
+                    // We have to take the value from the Products and reduce it from there
+                    Products.updateOne({_id : order.id}, 
+                        { "$inc" : 
+                            { "stock": -order.quantity }
+                        }, function(err) {
+                            if(err) return new Error(err)
+                        }
+                    )
+                });
+
+                createOrder.save((err) => {
+                    if(err) rejects(err);
+                    else resolve(createOrder);
+                })
+            });
+        }
+    }
 }

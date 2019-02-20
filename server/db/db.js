@@ -16,7 +16,6 @@ const clientSchema = new mongoose.Schema({
     emails: Array,
     
 });
-
 const Clients = mongoose.model('client', clientSchema); 
 
 
@@ -24,8 +23,19 @@ const productSchema = new mongoose.Schema({
     name: String,
     price: Number, 
     stock: Number, 
-})
-
+});
 const Products = mongoose.model('Products', productSchema)
 
-export { Clients, Products }; 
+// Orders
+const ordersSchema = new mongoose.Schema({
+    order: Array, 
+    total: Number,
+    data: Date, 
+    client: String,
+    status: String
+});
+
+const Orders =  mongoose.model('Orders', ordersSchema)
+
+
+export { Clients, Products, Orders }; 

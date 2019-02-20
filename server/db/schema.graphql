@@ -20,15 +20,31 @@ type Client {
         email: String
     }
 
-    type Order { 
-        product: String!
-        price: Int
-    }
 
     """ What type of client you have """
     enum TypeClient { 
         BASIC
         PREMIUM
+    }
+    
+    type Order {
+        id: ID
+        order: [OrderProduct]
+        total: Float
+        date: String 
+        client: ID 
+        status: OrderStatus
+    }
+
+    type OrderProduct {
+        id: ID 
+        quantity: Int
+    }
+
+    enum OrderStatus {
+        PENDING
+        COMPLETED
+        CANCELLED 
     }
 
     
@@ -64,8 +80,17 @@ type Client {
     }
 
     input OrderInput {
-        product: String
-        price: Int
+        id: ID
+        order: [OrderProductInput]
+        total: Float
+        date: String 
+        client: ID 
+        status: OrderStatus
+    }
+
+    input OrderProductInput {
+        id: ID 
+        quantity: Int
     }
 
     input EmailInput {
@@ -84,4 +109,6 @@ type Client {
         createClient(input: ClientInput) : Client 
         updateClient(input: ClientInput) : Client 
         deleteClient(id: ID! ) : String 
+        # Orders 
+        createOrder(input: OrderInput): Order
     }
