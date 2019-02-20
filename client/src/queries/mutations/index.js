@@ -25,8 +25,35 @@ mutation updateMyClient($input : ClientInput) {
 }
 `;
 
-  export const DELETE_CLIENT = gql`
+export const DELETE_CLIENT = gql`
   mutation deleteUserByID($id: ID!){
   deleteClient(id: $id)
 }
 `;
+
+export const CREATE_PRODUCT = gql`
+mutation createNewProduct($input : ProductInput){
+  createProduct(input: $input) {
+    name
+    price
+    stock
+  }
+}
+`
+
+export const DELETE_PRODUCT = gql`
+mutation REMOVE_PRODUCT($id : ID!) {
+  deleteProduct(id: $id) 
+}
+`
+
+
+export const UPDATE_PRODUCT = gql`
+mutation updateMyItem($input: ProductInput) {
+  updateProduct(input: $input) {
+    name
+    price
+    stock
+  }
+}
+`

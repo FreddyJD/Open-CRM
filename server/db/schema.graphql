@@ -37,6 +37,7 @@ type Client {
         getClients(limit: Int, offset: Int): [Client]
         getClient(id: ID): Client
         totalClients: String
+        totalProducts: String
         # Products 
         getProducts(limit: Int, offset: Int): [Product]
         getProduct(id: ID): Product

@@ -27,3 +27,27 @@ query getThisClient($id: ID) {
   }
 }
 `
+
+
+
+export const GET_PRODUCT = gql`
+query getThisProduct($id: ID!) { 
+  getProduct(id: $id) {
+    name
+    stock
+    price
+  }
+}`
+export const GET_PRODUCTS = gql`
+
+  query GET_PRODUCTS($limit: Int, $offset:Int) {
+    getProducts(limit: $limit, offset: $offset) {
+      id
+      name
+      price
+    stock
+  }
+  totalProducts 
+}
+
+`

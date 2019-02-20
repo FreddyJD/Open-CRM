@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { NEW_CLIENT } from '../queries/mutations';
+import { NEW_CLIENT } from '../../queries/mutations';
 import { Mutation } from 'react-apollo';
 
 export default class NewClient extends Component {

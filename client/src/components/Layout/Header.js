@@ -13,9 +13,14 @@ const Header = () => (
             <div className="collapse navbar-collapse" id="navegation">
                 <ul className="navbar-nav ml-auto text-right">
                     <li className="nav-item active">
-                    <Link to="/client/new" className="btn btn-success">
+                    <Link to="/client/new" className="btn btn-success mr-2">
                         <a>New client</a>
                     </Link>
+
+                    <Link to="/product/new" className="btn btn-success">
+                        <a>New Product</a>
+                    </Link>
+
                     </li>
                 </ul>
             </div>
