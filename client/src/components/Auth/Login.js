@@ -31,7 +31,7 @@ class Login extends Component {
          this.setState({...initialState});
     }
 
-    userLogin = (e, authUser) => {
+    authUser = (e, authUser) => {
         e.preventDefault();
 
         authUser().then(async ({data}) => {
@@ -39,9 +39,14 @@ class Login extends Component {
             localStorage.setItem('token', data.authUser.token)
 
             // TODO : Load query with all the "safe zones" 
+            await this.props.refetch();
             
 
             this.cleanState();
+
+            setTimeout(() => {
+                this.props.history.push('/panel');
+            }, 3000)
             
         })
 
@@ -72,7 +77,7 @@ class Login extends Component {
                         return (
                             
                             <form 
-                                onSubmit={ e => this.userLogin(e, authUser) } 
+                                onSubmit={ e => this.authUser(e, authUser)} 
                                 className="col-md-8"
                             >
 

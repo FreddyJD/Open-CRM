@@ -1,53 +1,42 @@
 import React, { Component } from 'react';
-import { ApolloProvider } from 'react-apollo';
-import ApolloClient, { InMemoryCache } from 'apollo-boost'; 
-import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 
 // Components 
 import Header from './components/Layout/Header';
+
 import Clients from './components/Clients/Clients';
 import EditClient from './components/Clients/EditClient';
 import NewClient from './components/Clients/NewClient';
+
 import NewProduct from './components/Products/NewProduct';
 import EditProduct from './components/Products/EditProduct';
 import Products from './components/Products/Products';
+
 import NewOrder from './components/Orders/NewOrder';
 import ClientsOrder from './components/Orders/ClientsOrders';
+
 import Panel from './components/Panel';
+
 import Register from './components/Auth/Register';
 import Login from './components/Auth/Login';
 
-const client = new ApolloClient({
-  uri: `http://localhost:4000/graphql`,
-  // Send token to the server back 
-  fetchOptions: {
-    credentials: 'include'
-  },
-  request: operation => {
-    const token = localStorage.getItem('token');
-    operation.setContext({
-      headers: {
-        authorization: token
-      }
-    })
-  },
-  cache: new InMemoryCache({
-    addTypename: false
-  }),
-  onError: ({networkError, graphQLErrors}) => { 
-    console.log('graphQLErrors', graphQLErrors);
-    console.log('networkErrors', networkError); 
-  }
-});
+import Session from './components/Session';
 
+const App = ({refetch, session}) => {
 
-class App extends Component {
-  render() {
-    return (
-      <ApolloProvider client={client}>
-        <Router>
+  console.log(session)
+  console.log(refetch)
+
+  const { getUser } = session
+  console.log(`This is the user ${session.getUser}`)
+  // console.log(`This is the user ${getUser.user}`)
+  // const messageUser = (getUser) ? `Welcome ${getUser.user}` : <Redirect to="/login" />;
+  
+  // {messageUser}
+  return (
+    <Router>
           <>
-          <Header /> 
+          <Header session={session} /> 
             <div className="container">
               <Switch>
                 <Route exact path="/clients" component={Clients} />
@@ -64,14 +53,12 @@ class App extends Component {
                 <Route exact path="/panel" component={Panel} />
 
                 <Route exact path="/register" component={Register}/>
-                <Route exact path="/login" component={Login}/>
+                <Route exact path="/login" render={() => <Login refetch={refetch} />} />
               </Switch>
             </div>
           </>
         </Router>
-      </ApolloProvider>
-    );
-  }
+       )
 }
-
-export default App;
+const RootSession = Session(App);
+export { RootSession }

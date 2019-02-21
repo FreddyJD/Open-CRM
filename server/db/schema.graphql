@@ -56,6 +56,10 @@ type Client {
         client: [Client]
     }
 
+    type User {
+        user: String
+    }
+
     
     type Query {
         # Clients
@@ -72,6 +76,9 @@ type Client {
 
         #Charts
         topClients: [TopClientTotal]
+
+        #Users
+        getUser : User
     }
 
 

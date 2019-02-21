@@ -1,12 +1,41 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import { RootSession } from './App';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import { ApolloProvider } from 'react-apollo';
+import ApolloClient, { InMemoryCache } from 'apollo-boost'; 
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
+
+const client = new ApolloClient({
+    uri: `http://localhost:4000/graphql`,
+    // Send token to the server back 
+    fetchOptions: {
+      credentials: 'include'
+    },
+    request: operation => {
+      const token = localStorage.getItem('token');
+      operation.setContext({
+        headers: {
+          authorization: token
+        }
+      })
+    },
+    cache: new InMemoryCache({
+      addTypename: false
+    }),
+    onError: ({networkError, graphQLErrors}) => { 
+      console.log('graphQLErrors', graphQLErrors);
+      console.log('networkErrors', networkError); 
+    }
+  });
+
+
+ReactDOM.render(
+    <ApolloProvider client={client}>
+        <RootSession /> 
+    </ApolloProvider> ,
+document.getElementById('root'));
+
 serviceWorker.unregister();

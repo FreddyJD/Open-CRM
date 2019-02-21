@@ -3,6 +3,10 @@ import { ApolloServer } from "apollo-server-express";
 import { typeDefs } from "./db/schema";
 import { resolvers } from "./db/resolvers";
 
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config({path: 'variables.env'});
+
 const app = express();
 
 const server = new ApolloServer({
@@ -11,7 +15,25 @@ const server = new ApolloServer({
   context: async({req}) => {
     // Get the token back
     const token =  req.headers['authorization'];
-    console.log(token);
+
+
+    if(token !== "null") {
+      try {
+
+        // We verified the token from the Front-end 
+        const getUser = await jwt.verify(token, process.env.SECRET);
+
+        // We add the user to the request 
+        req.getUser = getUser;
+        
+        // We send it back 
+        return { getUser };
+
+      }
+      catch(err) {
+        console.error(err);
+      }
+    }
   }
 });
 

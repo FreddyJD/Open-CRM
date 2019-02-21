@@ -99,6 +99,17 @@ export const resolvers = {
                 });
             })
         },
+        getUser : (root, args, {currentUser}) => {
+            if(!currentUser) {
+                return null;
+            }
+            console.log(currentUser);
+
+            // Get the from the req. JWT verified
+            const user = Users.findOne(currentUser.user);
+
+            return user;
+        }
     },
     Mutation: {
         createClient : (root, {input}) => {
