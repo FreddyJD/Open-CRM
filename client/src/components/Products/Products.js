@@ -64,7 +64,7 @@ export default class Products extends Component {
                             <Fragment>
                             <table className="table">
                                 <thead>
-                                    <tr className="table-primary">
+                                    <tr className="table table-hover">
                                         <th scope="col">Name</th>
                                         <th scope="col">Price</th>
                                         <th scope="col">Existing Stock</th>
@@ -75,10 +75,23 @@ export default class Products extends Component {
                             
                             <tbody>
                                 {data.getProducts.map(item => { 
+                                    console.log(item)
                                     const {id} = item
+                                    const { stock } = item;
+
+                                    let classStock = 'text-primary'
+
+                                    if(stock < 100) {
+                                        classStock = 'table-warning text-primary'
+                                    }
+                                    else if (stock < 10) {
+                                        classStock = 'table-danger text-primary'
+                                    }
+
+
                                     return (
 
-                                    <tr key={id}>
+                                    <tr key={id} className={classStock} >
 
                                         <td>{item.name}</td> 
                                         <td>{item.price}</td> 
