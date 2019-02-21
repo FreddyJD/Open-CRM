@@ -24,8 +24,12 @@ export const resolvers = {
                 })
             })
         },
-        getProducts : (root, {limit, offset}) => { 
-            return Products.find({}).limit(limit).skip(offset); 
+        getProducts : (root, {limit, offset, stock}) => {
+            let filter; 
+            if(stock) {
+                filter= { stock: {$gt: 0}}
+            } 
+            return Products.find(filter).limit(limit).skip(offset); 
         },
         getProduct : (root, {id}) =>  {
             return new Promise((resolve, object) => {
@@ -43,6 +47,14 @@ export const resolvers = {
                 })
             })
         },
+        getOrders: (root, {client}) => { 
+            return new Promise((resolve, object) => {
+                Orders.find({client: client}, (err, order) => { 
+                    if(err) rejects(err);
+                    else resolve(order) 
+                })
+            })
+        }
     },
     Mutation: {
         createClient : (root, {input}) => {
@@ -119,12 +131,11 @@ export const resolvers = {
             const createOrder = new Orders({
                 order: input.order,
                 total: input.total,
-                date: new Date(),
+                date: input.date,
                 client: input.client,
                 status: "PENDING"
 
             });
-
             createOrder.id = createOrder._id;
 
             return new Promise((resolve, object) => {
@@ -146,6 +157,16 @@ export const resolvers = {
                     else resolve(createOrder);
                 })
             });
+        },
+        updateStatus : (root, {input}) => { 
+            return new Promise((resolve, object) => {
+                Orders.findOneAndUpdate({
+                    _id : input.id
+                }, input, {new: true}, (err) => {
+                    if(err) rejects(err);
+                    else resolve('Updated')
+                })
+            })
         }
     }
 }

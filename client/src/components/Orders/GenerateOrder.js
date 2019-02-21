@@ -29,9 +29,10 @@ const GenerateOrder = (props) => {
                     const input = {
                         order: productsInput,
                         total: props.total,
-                        client: props.clientId
+                        client: props.clientId,
+                        date: Date()
                     }
-                    // console.log(input);
+                    console.log(input);
                     createOrder({
                         variables: {
                             input

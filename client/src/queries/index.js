@@ -40,8 +40,8 @@ query getThisProduct($id: ID!) {
 }`
 export const GET_PRODUCTS = gql`
 
-  query GET_PRODUCTS($limit: Int, $offset:Int) {
-    getProducts(limit: $limit, offset: $offset) {
+  query GET_PRODUCTS($limit: Int, $offset:Int, $stock: Boolean) {
+    getProducts(limit: $limit, offset: $offset, stock: $stock) {
       id
       name
       price
@@ -51,3 +51,17 @@ export const GET_PRODUCTS = gql`
 }
 
 `
+
+export const GET_ORDERS = gql`
+query getOrders($client: String) {
+  getOrders(client: $client) {
+    id
+    total
+    date
+    status
+    order {
+      id
+      quantity
+    }
+  }
+}`

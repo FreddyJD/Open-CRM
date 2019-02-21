@@ -64,3 +64,8 @@ export const CREATE_ORDER = gql`
   }
 }
 `
+
+export const UPDATE_STATUS = gql`
+mutation updateStatus($input: OrderInput) {
+  updateStatus(input: $input)
+}`

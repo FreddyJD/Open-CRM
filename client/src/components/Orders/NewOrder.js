@@ -22,7 +22,7 @@ class NewOrder extends Component {
               />
           </div>
           <div className="col-md-9">
-              <Query query={GET_PRODUCTS} >
+              <Query query={GET_PRODUCTS} variables={{stock: true}}>
                   {({ loading, err, data }) => { 
                       if(loading) return (
                         <div className="sk-folding-cube">

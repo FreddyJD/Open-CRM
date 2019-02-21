@@ -55,8 +55,11 @@ type Client {
         totalClients: String
         totalProducts: String
         # Products 
-        getProducts(limit: Int, offset: Int): [Product]
+        getProducts(limit: Int, offset: Int, stock: Boolean): [Product]
         getProduct(id: ID): Product
+
+        # Get Orders 
+        getOrders(client: String): [Order]
     }
 
 
@@ -111,4 +114,5 @@ type Client {
         deleteClient(id: ID! ) : String 
         # Orders 
         createOrder(input: OrderInput): Order
+        updateStatus(input: OrderInput): String
     }

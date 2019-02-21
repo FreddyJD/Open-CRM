@@ -79,6 +79,14 @@ class Clients extends Component {
                            New Order
 
                             </Link>
+
+
+                            <Link to={`/orders/${id}`}
+                            
+                            className="btn btn-primary d-block d-md-inline-block mr-2">
+                           View Orders
+
+                            </Link>
                             
                             <Mutation mutation={DELETE_CLIENT}
                             onCompleted={(data) => {
@@ -116,7 +124,7 @@ class Clients extends Component {
                         
                             }}
                             >
-                                &times; Delete Client 
+                                 Delete Client 
                             </button>
                             )}
                             </Mutation>

@@ -30,7 +30,7 @@ const Products = mongoose.model('Products', productSchema)
 const ordersSchema = new mongoose.Schema({
     order: Array, 
     total: Number,
-    data: Date, 
+    date: String, 
     client: String,
     status: String
 });
