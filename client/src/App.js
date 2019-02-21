@@ -5,15 +5,16 @@ import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 // Components 
 import Header from './components/Layout/Header';
-import Clients from './components/Clients/Clients'
-import EditClient from './components/Clients/EditClient'
-import NewClient from './components/Clients/NewClient'
+import Clients from './components/Clients/Clients';
+import EditClient from './components/Clients/EditClient';
+import NewClient from './components/Clients/NewClient';
 
 import NewProduct from './components/Products/NewProduct';
-import EditProduct from './components/Products/EditProduct'
-import Products from './components/Products/Products'
+import EditProduct from './components/Products/EditProduct';
+import Products from './components/Products/Products';
 import NewOrder from './components/Orders/NewOrder';
 import ClientsOrder from './components/Orders/ClientsOrders';
+import Panel from './components/Panel';
 
 const client = new ApolloClient({
   uri: `http://localhost:4000/graphql`,
@@ -45,6 +46,7 @@ class App extends Component {
                 <Route exact path="/products/" component={Products} />
                 <Route exact path="/order/new/:id" component={NewOrder} />
                 <Route exact path="/orders/:id" component={ClientsOrder} />
+                <Route exact path="/panel" component={Panel} />
               </Switch>
             </div>
           </>

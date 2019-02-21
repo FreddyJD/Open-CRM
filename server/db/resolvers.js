@@ -54,7 +54,39 @@ export const resolvers = {
                     else resolve(order) 
                 })
             })
-        }
+        },
+        topClients : (root) => {
+            return new Promise((resolve, rejects) => { 
+                Orders.aggregate([
+                    {
+                        $match : { status : "COMPLETED" }
+                    },
+                    {
+                        $group : {
+                            _id : "$client",
+                            total: { $sum : "$total" }
+                        }
+                    },
+                    {
+                        $lookup : {
+                            from: "clients",
+                            localField : '_id',
+                            foreignField: '_id',
+                            as : 'client'
+                        }
+                    }, 
+                    {
+                        $sort : {total : -1} 
+                    },
+                    {
+                        $limit: 10
+                    }
+                ], (err, results) => {
+                    if(err) rejects(err);
+                    else resolve(results);
+                });
+            })
+        },
     },
     Mutation: {
         createClient : (root, {input}) => {

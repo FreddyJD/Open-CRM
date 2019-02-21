@@ -65,3 +65,13 @@ query getOrders($client: String) {
     }
   }
 }`
+
+export const TOP_CLIENTS = gql`
+query TOP_CLIENTS {
+  topClients{
+    total
+    client {
+      name
+    }
+  }
+}`

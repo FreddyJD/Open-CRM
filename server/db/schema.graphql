@@ -47,6 +47,11 @@ type Client {
         CANCELLED 
     }
 
+    type TopClientTotal {
+        total: Float
+        client: [Client]
+    }
+
     
     type Query {
         # Clients
@@ -60,6 +65,9 @@ type Client {
 
         # Get Orders 
         getOrders(client: String): [Order]
+
+        #Charts
+        topClients: [TopClientTotal]
     }
 
 
