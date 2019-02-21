@@ -1,6 +1,18 @@
 import mongoose from 'mongoose'; 
-import { Clients, Products, Orders } from './db'
+import { Clients, Products, Orders, Users } from './db';
 import { rejects, throws } from 'assert';
+import bcrypt from 'bcrypt';
+import dotenv from 'dotenv';
+dotenv.config({path: 'variables.env'});
+
+import jwt from 'jsonwebtoken';
+
+const createToken = (userlog, secret, expiresIn) => {
+
+    const {user} = userlog; 
+
+    return jwt.sign({user}, secret, {expiresIn})
+}
 
 
 export const resolvers = {
@@ -225,6 +237,40 @@ export const resolvers = {
                     else resolve('Updated')
                 })
             })
+        },
+        createUser : async(root, {user, password}) => { 
+            // Check if a user have this password 
+            const userExist = await Users.findOne({user});
+
+            if(userExist) {
+                throw new Error('Username already registed')
+            }
+
+
+            const newUser = await new Users({
+                user,
+                password
+            }).save();
+
+
+
+            return "Created user"
+        },
+        authUser : async(root, {user, password}) => { 
+            const nameOfUser = await Users.findOne({user}); 
+            if(!nameOfUser) {
+                throw new Error('User not found');
+            }
+            const passwordCorrect = await bcrypt.compare(password, nameOfUser.password);
+
+            // If the password is wrong 
+            if(!passwordCorrect){
+                throw new Error('Incorrect password')
+            }
+
+            return {
+                token: createToken(nameOfUser, process.env.SECRET, '10hr')
+            }
         }
     }
 }

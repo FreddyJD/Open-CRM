@@ -41,6 +41,10 @@ type Client {
         quantity: Int
     }
 
+    type Token {
+        token: String!
+    }
+
     enum OrderStatus {
         PENDING
         COMPLETED
@@ -123,4 +127,8 @@ type Client {
         # Orders 
         createOrder(input: OrderInput): Order
         updateStatus(input: OrderInput): String
+
+        # Users
+        createUser(user: String!, password: String!) : String
+        authUser(user: String!, password: String!) : Token
     }

@@ -3,7 +3,7 @@ import Select from 'react-select';
 import Animated from 'react-select/lib/animated'
 import Summery from './Summery';
 import GenerateOrder from './GenerateOrder';
-import Error from './Error';
+import Error from '../Alerts/Error';
 
 export default class OrderContent extends Component {
 
