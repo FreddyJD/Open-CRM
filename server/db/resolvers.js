@@ -159,6 +159,32 @@ export const resolvers = {
             });
         },
         updateStatus : (root, {input}) => { 
+
+            const { status } = input 
+
+            let instruction;
+            if(status === 'COMPLETED') {
+                instruction = '-'
+            }
+            else if (status === 'CANCELLED') {
+                instruction = '+'
+            }
+            else if (status === 'PENDING') {
+                instruction = '+'
+            }
+
+            input.order.forEach(order => {
+                // We have to take the value from the Products and reduce it from there
+                Products.updateOne({_id : order.id}, 
+                    { "$inc" : 
+                        { "stock": `${instruction}${order.quantity}` }
+                    }, function(err) {
+                        if(err) return new Error(err)
+                    }
+                )
+            });
+
+
             return new Promise((resolve, object) => {
                 Orders.findOneAndUpdate({
                     _id : input.id
