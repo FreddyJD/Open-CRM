@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import { RootSession } from './App';
+
 import * as serviceWorker from './serviceWorker';
 
 import { ApolloProvider } from 'react-apollo';
 import ApolloClient, { InMemoryCache } from 'apollo-boost'; 
 
+import {RootSession} from './App';
 
 const client = new ApolloClient({
     uri: `http://localhost:4000/graphql`,

@@ -3,7 +3,6 @@ import React, { Component, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import Error from '../Alerts/Error'
-
 import { Mutation } from 'react-apollo';
 
 import { AUTH_USER } from '../../queries/mutations';
@@ -31,24 +30,21 @@ class Login extends Component {
          this.setState({...initialState});
     }
 
-    authUser = (e, authUser) => {
+    userAuthenetication = async (e, authUser) => {
         e.preventDefault();
 
-        authUser().then(async ({data}) => {
+        const user = await authUser(); 
 
-            localStorage.setItem('token', data.authUser.token)
+        localStorage.setItem('token', user.data.authUser.token);
 
-            // TODO : Load query with all the "safe zones" 
-            await this.props.refetch();
-            
+        await this.props.refetch();
 
-            this.cleanState();
+        this.cleanState();
 
-            setTimeout(() => {
-                this.props.history.push('/panel');
-            }, 3000)
-            
-        })
+        setTimeout(() => {
+            this.props.history.push('/panel');
+        }, 3000);
+
 
      }
 
@@ -62,22 +58,22 @@ class Login extends Component {
     render() { 
 
         const {user, password} = this.state;
+        const { refetch } = this.props
       
         return ( 
             <Fragment>
                  <h1 className="text-center mb-5">Login</h1>
                 <div className="row justify-content-center">
+                
 
                     <Mutation 
                         mutation={ AUTH_USER }
                         variables={{user, password}}    
                     >
                     {( authUser, {loading, error, data}) => {
-
                         return (
-                            
                             <form 
-                                onSubmit={ e => this.authUser(e, authUser)} 
+                                onSubmit={ e => this.userAuthenetication(e, authUser)} 
                                 className="col-md-8"
                             >
 

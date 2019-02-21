@@ -1,12 +1,14 @@
-import React, {Component} from 'react';
-import { Query } from 'react-apollo'; 
-import {CURRENT_USER} from '../queries'
+import React, { Component } from 'react';
+import { Query } from 'react-apollo';
+import { CURRENT_USER } from '../queries/index';
 
 const Session = Component => props => (
-    <Query query={CURRENT_USER}>
+    <Query query={CURRENT_USER} >
         {({loading, err, data, refetch}) => { 
             return (
-                <Component {...props} refetch={refetch} session={data} />
+                <>
+                <Component {...props}  session={data} refetch={refetch} />
+                </>
             )
         }}
     </Query>

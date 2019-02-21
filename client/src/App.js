@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 
-// Components 
 import Header from './components/Layout/Header';
 
 import Clients from './components/Clients/Clients';
@@ -20,24 +19,20 @@ import Panel from './components/Panel';
 import Register from './components/Auth/Register';
 import Login from './components/Auth/Login';
 
+
+// Our HOC
 import Session from './components/Session';
 
 const App = ({refetch, session}) => {
 
-  console.log(session)
-  console.log(refetch)
+  console.log(session.getUser)
 
-  const { getUser } = session
-  console.log(`This is the user ${session.getUser}`)
-  // console.log(`This is the user ${getUser.user}`)
-  // const messageUser = (getUser) ? `Welcome ${getUser.user}` : <Redirect to="/login" />;
-  
-  // {messageUser}
+
   return (
-    <Router>
+    <Router >
           <>
           <Header session={session} /> 
-            <div className="container">
+            <div className="container" >
               <Switch>
                 <Route exact path="/clients" component={Clients} />
                 <Route exact path="/client/new" component={NewClient} />
@@ -60,5 +55,4 @@ const App = ({refetch, session}) => {
         </Router>
        )
 }
-const RootSession = Session(App);
-export { RootSession }
+export const RootSession = Session(App);

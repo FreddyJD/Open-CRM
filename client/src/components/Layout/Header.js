@@ -1,36 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 
-const Header = ({session}) => {
-
-    console.log(session)
-
-    let bar = (session.getUser) ? <withAuthNav /> : <notAuthNav />
+const Header = () => {
 
     return (
 
         <nav className="navbar navbar-expand-lg navbar-dark bg-primary justify-content-between d-flex mb-4">
         <div className="container">
-            {bar}
-        </div>
-    </nav>
-        )
-}
-
-
-const notAuthNav = () => (
-
-    <h3 className="navbar-brand text-light font-weight-bold">
-        <a>Open-CRM</a>
-    </h3>
-
-)
-
-const withAuthNav = () => (
-    <>
-    <Link to="/" className="navbar-brand text-light font-weight-bold">
+        <Link to="/" className="navbar-brand text-light font-weight-bold">
     <a>Open-CRM</a>
-</Link>
+    </Link>
     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navegation" aria-controls="navegation" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>
     </button>
@@ -67,7 +46,10 @@ const withAuthNav = () => (
             </li>
         </ul>
     </div>
-    </>
-)
+        </div>
+    </nav>
+        )
+}
+
 
 export default Header;
