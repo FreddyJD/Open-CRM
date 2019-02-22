@@ -45,7 +45,7 @@ class Login extends Component {
 
             setTimeout(() => {
                 this.props.history.push('/panel');
-            }, 3000);
+            }, 100);
 
         })
      }

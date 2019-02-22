@@ -23,13 +23,16 @@ import Session from './components/Session';
 
 const App = ({refetch, session}) => {
 
-  console.log(session)
+  const { getUser } = session
 
+  const message = (getUser) ? `Welcome ${getUser.user}` : <Redirect to="/login" />;
+  
   return(
     <Router >
           <>
           <Header session={session} /> 
             <div className="container" >
+            <p className="text-right">{message}</p>
               <Switch>
                 <Route exact path="/clients" component={Clients} />
                 <Route exact path="/client/new" component={NewClient} />
