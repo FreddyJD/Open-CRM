@@ -78,7 +78,7 @@ query TOP_CLIENTS {
 
 // users
 export const CURRENT_USER = gql`
-query getUser {
+query getUser{
   getUser{
     user
   }

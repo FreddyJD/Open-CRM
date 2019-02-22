@@ -19,16 +19,13 @@ import Panel from './components/Panel';
 import Register from './components/Auth/Register';
 import Login from './components/Auth/Login';
 
-
-// Our HOC
 import Session from './components/Session';
 
 const App = ({refetch, session}) => {
 
-  console.log(session.getUser)
+  console.log(session)
 
-
-  return (
+  return(
     <Router >
           <>
           <Header session={session} /> 
@@ -48,11 +45,12 @@ const App = ({refetch, session}) => {
                 <Route exact path="/panel" component={Panel} />
 
                 <Route exact path="/register" component={Register}/>
-                <Route exact path="/login" render={() => <Login refetch={refetch} />} />
+                <Route exact path="/login" render={() => <Login refetch={refetch} /> } />
               </Switch>
             </div>
           </>
         </Router>
        )
 }
-export const RootSession = Session(App);
+const RootSession = Session(App);
+export { RootSession }

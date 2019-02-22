@@ -99,15 +99,14 @@ export const resolvers = {
                 });
             })
         },
-        getUser : (root, args, {currentUser}) => {
-            if(!currentUser) {
+        getUser : async (root, args, {getUser}) => {
+            if(!getUser) {
                 return null;
             }
-            console.log(currentUser);
 
             // Get the from the req. JWT verified
-            const user = Users.findOne(currentUser.user);
-
+            const user = await Users.findOne({user: getUser.user});
+            console.log(user)
             return user;
         }
     },
@@ -277,11 +276,13 @@ export const resolvers = {
             // If the password is wrong 
             if(!passwordCorrect){
                 throw new Error('Incorrect password')
-            }
+            } 
+                return{
+                    token: createToken(nameOfUser, process.env.SECRET, '10hr')
+                }
+                
+        
 
-            return {
-                token: createToken(nameOfUser, process.env.SECRET, '10hr')
-            }
         }
     }
 }

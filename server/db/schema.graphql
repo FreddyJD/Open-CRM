@@ -70,15 +70,12 @@ type Client {
         # Products 
         getProducts(limit: Int, offset: Int, stock: Boolean): [Product]
         getProduct(id: ID): Product
-
         # Get Orders 
         getOrders(client: String): [Order]
-
         #Charts
         topClients: [TopClientTotal]
-
         #Users
-        getUser : User
+        getUser: User
     }
 
 
@@ -134,7 +131,6 @@ type Client {
         # Orders 
         createOrder(input: OrderInput): Order
         updateStatus(input: OrderInput): String
-
         # Users
         createUser(user: String!, password: String!) : String
         authUser(user: String!, password: String!) : Token

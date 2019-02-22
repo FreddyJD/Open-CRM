@@ -4,10 +4,10 @@ import './index.css';
 
 import * as serviceWorker from './serviceWorker';
 
-import { ApolloProvider } from 'react-apollo';
 import ApolloClient, { InMemoryCache } from 'apollo-boost'; 
+import { ApolloProvider } from 'react-apollo';
 
-import {RootSession} from './App';
+import { RootSession } from './App';
 
 const client = new ApolloClient({
     uri: `http://localhost:4000/graphql`,
@@ -32,11 +32,11 @@ const client = new ApolloClient({
     }
   });
 
-
+console.log(client);
 ReactDOM.render(
     <ApolloProvider client={client}>
         <RootSession /> 
-    </ApolloProvider> ,
+    </ApolloProvider>,
 document.getElementById('root'));
 
 serviceWorker.unregister();
