@@ -2,8 +2,10 @@ import mongoose, { mongo } from 'mongoose';
 import { Clients, Products, Orders, Users } from './db';
 import { rejects, throws } from 'assert';
 import bcrypt from 'bcrypt';
+
+
 import dotenv from 'dotenv';
-dotenv.config({path: 'variables.env'});
+dotenv.config({path:__dirname+'/./../../.env'})
 
 const ObjectId = mongoose.Types.ObjectId
 

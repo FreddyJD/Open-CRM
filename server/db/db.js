@@ -1,10 +1,10 @@
 import mongoose, { mongo } from 'mongoose';
 import bcrypt from 'bcrypt';
-
+import dotenv from 'dotenv';
+dotenv.config({path:__dirname+'/./../../.env'})
 
 mongoose.Promise = global.Promise;
-
-mongoose.connect('mongodb://localhost/clients', {useNewUrlParser: true});
+mongoose.connect(process.env.MONGOURI, {useNewUrlParser: true});
 
 mongoose.set('setFindAndModify', false); 
 
