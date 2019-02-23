@@ -56,16 +56,24 @@ type Client {
         client: [Client]
     }
 
+    type TopSellerTotal {
+        total: Float
+        seller: [User]
+    }
+
     type User {
+        id: ID
+        name: String
+        rol: String
         user: String
     }
 
     
     type Query {
         # Clients
-        getClients(limit: Int, offset: Int): [Client]
+        getClients(limit: Int, offset: Int, seller: String): [Client]
         getClient(id: ID): Client
-        totalClients: String
+        totalClients(seller: String): String
         totalProducts: String
         # Products 
         getProducts(limit: Int, offset: Int, stock: Boolean): [Product]
@@ -74,6 +82,7 @@ type Client {
         getOrders(client: String): [Order]
         #Charts
         topClients: [TopClientTotal]
+        topSellers: [TopSellerTotal]
         #Users
         getUser: User
     }
@@ -89,6 +98,7 @@ type Client {
         type: TypeClient
         orders: [OrderInput]
         emails: [EmailInput] 
+        seller: ID
     }
 
     input ProductInput {
@@ -105,6 +115,7 @@ type Client {
         date: String 
         client: ID 
         status: OrderStatus
+        seller: ID
     }
 
     input OrderProductInput {
@@ -132,6 +143,6 @@ type Client {
         createOrder(input: OrderInput): Order
         updateStatus(input: OrderInput): String
         # Users
-        createUser(user: String!, password: String!) : String
+        createUser(user: String!, password: String!, name: String!, rol: String!) : String
         authUser(user: String!, password: String!) : Token
     }

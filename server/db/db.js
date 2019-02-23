@@ -16,6 +16,7 @@ const clientSchema = new mongoose.Schema({
     type: String,
     orders: Array,
     emails: Array,
+    seller: mongoose.Types.ObjectId
     
 });
 const Clients = mongoose.model('client', clientSchema); 
@@ -34,7 +35,8 @@ const ordersSchema = new mongoose.Schema({
     total: Number,
     date: String, 
     client: mongoose.Types.ObjectId,
-    status: String
+    status: String,
+    seller: mongoose.Types.ObjectId
 });
 
 const Orders =  mongoose.model('Orders', ordersSchema);
@@ -42,7 +44,9 @@ const Orders =  mongoose.model('Orders', ordersSchema);
 // User authentication
 const userSchema = new mongoose.Schema({
     user: String,
-    password: String
+    name: String, 
+    rol: String, 
+    password: String,
 });
 
 // We want to hash the password before we save it in our database

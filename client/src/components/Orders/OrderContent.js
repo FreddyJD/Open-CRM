@@ -113,6 +113,7 @@ export default class OrderContent extends Component {
            products={this.state.products}
            total={this.state.total}
            clientId={this.props.id}
+           sellerID={this.props.sellerID}
          />
       </>
     )

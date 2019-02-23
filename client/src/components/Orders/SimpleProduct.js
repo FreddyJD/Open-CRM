@@ -1,32 +1,32 @@
-import React from 'react';
+import React, { Component } from 'react'
 
-const SimpleProduct = ({quantity, product}) => {
+export default class SimpleProduct extends Component {
+    render() {
     return (
         <>
         <div className="border mb-4 p-4">
         <p className="card-text font-weight-bold">
-                Name:  <br/>
+                Name:  
                 <span className="font-weight-normal">
-                     {product.name}
+                     {this.props.product.name}
                 </span>
             </p>
 
             <p className="card-text font-weight-bold">
-                Quantity:  <br/>
+                Quantity:  
                 <span className="font-weight-normal">
-                     {quantity}
+                     {this.props.quantity}
                 </span>
             </p>
 
             <p className="card-text font-weight-bold">
-                Unit Price:  <br/>
+                Unit Price:
                 <span className="font-weight-normal">
-                     ${product.price}
+                     ${this.props.product.price}
                 </span>
             </p>
         </div>
         </>
     );
-};
-
-export default SimpleProduct;
+  }
+}

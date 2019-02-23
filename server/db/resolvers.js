@@ -1,9 +1,11 @@
-import mongoose from 'mongoose'; 
+import mongoose, { mongo } from 'mongoose'; 
 import { Clients, Products, Orders, Users } from './db';
 import { rejects, throws } from 'assert';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 dotenv.config({path: 'variables.env'});
+
+const ObjectId = mongoose.Types.ObjectId
 
 import jwt from 'jsonwebtoken';
 
@@ -17,8 +19,16 @@ const createToken = (userlog, secret, expiresIn) => {
 
 export const resolvers = {
     Query: {
-        getClients: (root, {limit, offset}) => {
-            return Clients.find({}).limit(limit).skip(offset)
+        getClients: (root, {limit, offset, seller}) => {
+            let filter; 
+
+            if(seller) {
+                filter = {seller : new ObjectId(seller)}
+            }
+ 
+            return Clients.find(filter).limit(limit).skip(offset)
+
+
         },
         getClient: (root, { id }) => {
             return new Promise((resolve, object) => {
@@ -28,9 +38,15 @@ export const resolvers = {
                 });
             }); 
         },
-        totalClients: (root) => {
+        totalClients: (root, {seller}) => {
+
             return new Promise((resolve, object) => {
-                Clients.countDocuments({},(err, count) => { 
+                let filter; 
+    
+                if(seller) {
+                    filter = {seller : new ObjectId(seller)}
+                }
+                Clients.countDocuments(filter ,(err, count) => { 
                     if(err) rejects(err)
                     else resolve(count)
                 })
@@ -99,6 +115,38 @@ export const resolvers = {
                 });
             })
         },
+        topSellers : (root) => {
+            return new Promise((resolve, rejects) => { 
+                Orders.aggregate([
+                    {
+                        $match : { status : "COMPLETED" }
+                    },
+                    {
+                        $group : {
+                            _id : "$seller",
+                            total: { $sum : "$total" }
+                        }
+                    },
+                    {
+                        $lookup : {
+                            from: "users",
+                            localField : '_id',
+                            foreignField: '_id',
+                            as : 'seller'
+                        }
+                    }, 
+                    {
+                        $sort : {total : -1} 
+                    },
+                    {
+                        $limit: 10
+                    }
+                ], (err, results) => {
+                    if(err) rejects(err);
+                    else resolve(results);
+                });
+            })
+        },
         getUser : async (root, args, {getUser}) => {
             if(!getUser) {
                 return null;
@@ -120,6 +168,7 @@ export const resolvers = {
                 type: input.type,
                 orders: input.orders,
                 emails: input.emails,
+                seller: input.seller,
             }) 
 
             newClient.id = newClient._id; 
@@ -187,7 +236,8 @@ export const resolvers = {
                 total: input.total,
                 date: input.date,
                 client: input.client,
-                status: "PENDING"
+                status: "PENDING",
+                seller: input.seller,
 
             });
             createOrder.id = createOrder._id;
@@ -248,7 +298,7 @@ export const resolvers = {
                 })
             })
         },
-        createUser : async(root, {user, password}) => { 
+        createUser : async(root, {user, password, rol, name}) => { 
             // Check if a user have this password 
             const userExist = await Users.findOne({user});
 
@@ -256,12 +306,12 @@ export const resolvers = {
                 throw new Error('Username already registed')
             }
 
-
             const newUser = await new Users({
                 user,
-                password
+                password,
+                name,
+                rol
             }).save();
-
 
 
             return "Created user"

@@ -44,13 +44,29 @@ class Clients extends Component {
     }
     
     render(){
-        const {alert: {show, message}} = this.state;
 
+        // Our alerts
+        const {alert: {show, message}} = this.state;
         let alert = (show) ? <Success message={message} /> : '';
+
+        // Gets seller ID
+        let userId;
+        const { rol } = this.props.session.getUser
+
+        if(rol === 'SELLER') { 
+            userId = this.props.session.getUser.id
+        } else { 
+            userId = ''
+        }
 
         return (
 
-        <Query query={CLIENTS_QUERY} pollInterval={1000} variables={{limit: this.limit, offset: this.state.page.offset}}> 
+        <Query query={CLIENTS_QUERY} 
+        pollInterval={1000} 
+        variables={{
+            limit: this.limit, 
+            offset: this.state.page.offset, 
+            seller: userId}}> 
       {({ loading, err, data, startPolling, stopPolling }) => {
           if(loading) return "Loading...";
           if(err) return `Error ${err.message}`;

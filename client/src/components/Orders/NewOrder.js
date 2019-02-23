@@ -3,6 +3,9 @@ import ClientData from './ClientData';
 import { Query } from 'react-apollo';
 import { GET_PRODUCTS } from '../../queries';
 import OrderContent from './OrderContent'
+import Session from '../Session';
+
+import {withRouter} from 'react-router-dom'
 
 class NewOrder extends Component {
     state = { 
@@ -10,6 +13,8 @@ class NewOrder extends Component {
     }
   render() {
     const { id } = this.props.match.params
+
+    const sellerID = this.props.session.getUser.id
 
     return (
       <>
@@ -41,6 +46,7 @@ class NewOrder extends Component {
                         <OrderContent 
                         products={data.getProducts} 
                         id={id} 
+                        sellerID={sellerID}
                         >
                         </OrderContent>
                       )
@@ -54,4 +60,4 @@ class NewOrder extends Component {
   }
 }
 
-export default NewOrder
+export default withRouter(NewOrder)

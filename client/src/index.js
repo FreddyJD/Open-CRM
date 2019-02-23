@@ -32,7 +32,6 @@ const client = new ApolloClient({
     }
   });
 
-console.log(client);
 ReactDOM.render(
     <ApolloProvider client={client}>
         <RootSession /> 

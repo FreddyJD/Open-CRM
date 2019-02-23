@@ -15,19 +15,15 @@ const server = new ApolloServer({
   context: async({req}) => {
     // Get the token back
     const token =  req.headers['authorization'];
-    console.log(token)
 
     if(token !== "null") {
       try {
         // We verified the token from the Front-end 
         const getUser = await jwt.verify(token, process.env.SECRET);
-        console.log(getUser)
 
         // We add the user to the request 
         req.getUser = getUser;
 
-        console.log(getUser)
-        
         // We send it back 
         return { getUser };
 

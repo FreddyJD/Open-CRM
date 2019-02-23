@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-
 import { withRouter } from 'react-router-dom';
-
 import Error from '../Alerts/Error'
-
 import { Mutation } from 'react-apollo';
 import { AUTH_USER } from '../../queries/mutations';
 
@@ -22,7 +19,7 @@ class Login extends Component {
 
         this.setState({
             [name] : value
-        })
+        }); 
      }
 
 
@@ -44,7 +41,7 @@ class Login extends Component {
             this.cleanState();
 
             setTimeout(() => {
-                this.props.history.push('/panel');
+                this.props.history.push('/');
             }, 100);
 
         })
@@ -54,7 +51,6 @@ class Login extends Component {
         const {user, password} = this.state;
         const notValid = !user || !password;
 
-        // console.log(notValid);
         return notValid;
      }
     render() { 

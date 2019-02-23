@@ -70,6 +70,10 @@ const Order = (props) => {
                     <h3 className="card-text text-center mb-3">Items</h3>
                     {order.order.map((item, index) => {
 
+                        console.log(order)
+                        {/* console.log(data) */}
+                        console.log(item)
+
 
                         const {id} = item
 

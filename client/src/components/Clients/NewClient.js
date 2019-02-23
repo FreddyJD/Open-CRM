@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { NEW_CLIENT } from '../../queries/mutations';
 import { Mutation } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
 
-export default class NewClient extends Component {
+class NewClient extends Component {
     state = {
       client: {
         name: '',
@@ -41,6 +42,9 @@ export default class NewClient extends Component {
     }
 
   render() {
+
+    const idSeller = this.props.session.getUser.id;
+
     const { error } = this.state
     let errMessage = (error) ? <p className="alert alert-danger p3 text-center">Must fill all filds </p> : '';
     return (
@@ -83,6 +87,7 @@ export default class NewClient extends Component {
               age : Number(age),
               type,
               emails, 
+              seller: idSeller,
           }
 
           createClient({
@@ -223,3 +228,5 @@ export default class NewClient extends Component {
     )
   }
 }
+
+export default withRouter(NewClient);

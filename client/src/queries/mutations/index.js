@@ -21,6 +21,7 @@ mutation updateMyClient($input : ClientInput) {
     }
     company
     type
+    seller
   }
 }
 `;
@@ -71,8 +72,8 @@ mutation updateStatus($input: OrderInput) {
 }`
 
 export const CREATE_USER = gql`
-mutation createUser($user: String!, $password: String!){
-  createUser(user: $user, password: $password) 
+mutation createUser($user: String!, $password: String!, $name: String!, $rol: String!){
+  createUser(user: $user, password: $password, name: $name, rol: $rol) 
 }
 `
 

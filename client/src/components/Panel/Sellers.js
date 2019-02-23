@@ -1,35 +1,35 @@
 import React from 'react';
 import { Query } from 'react-apollo';
-import { TOP_CLIENTS } from '../../queries'
+import { TOP_SELLERS } from '../../queries'
 import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip} from 'recharts';
 
 
-const Clients = () => {
+const Sellers = () => {
     return (
         <>
-        <Query query={TOP_CLIENTS} > 
+        <Query query={TOP_SELLERS} > 
         {({ loading, err, data }) => { 
             if(loading) return `Loading...`;
             if(err) return `err ${err.message}`;
 
             console.log(data);
 
-            const topClientsChart = []; 
+            const topSellerChart = []; 
 
-            data.topClients.map((order, index) => {
-                topClientsChart[index] = {
-                    ...order.client[0],
-                    total: order.total
+            data.topSellers.map((seller, index) => {
+                topSellerChart[index] = {
+                    ...seller.seller[0],
+                    total: seller.total
                 }
             });
-            console.log(topClientsChart)
+
             return (
                 <>
                 	<BarChart
                     width={1000}
                     className="text-center" 
                     height={300} 
-                    data={topClientsChart}
+                    data={topSellerChart}
                     margin={{top: 5, right: 30, left: 20, bottom: 5}}
                     >
 
@@ -50,4 +50,4 @@ const Clients = () => {
     );
 };
 
-export default Clients;
+export default Sellers;
