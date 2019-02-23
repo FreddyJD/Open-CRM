@@ -4,8 +4,8 @@
   "description": "Heroku-Deploy",
   "start": "",
   "scripts": {
-    "start": "cd server && nodemon ./app.js --exec babel-node e js",
-    "heroku-postbuild": "cd client && npm install && npm run build && cd ../ && cd server && npm install"
+    "start": "cd server && npm install && nodemon ./app.js --exec babel-node e js",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "repository": {
     "type": "git",

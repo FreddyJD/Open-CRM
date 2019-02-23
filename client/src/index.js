@@ -37,5 +37,3 @@ ReactDOM.render(
         <RootSession /> 
     </ApolloProvider>,
 document.getElementById('root'));
-
-serviceWorker.unregister();
